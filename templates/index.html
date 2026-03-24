@@ -80,24 +80,16 @@
         <section class="panel">
             <h2>Add Event</h2>
             <form method="post" action="{{ url_for('create_event_from_form') }}" class="event-form">
-                <label>Date</label>
-                <input type="date" name="event_date" required><br>
-                <label>Time</label>
-                <input type="time" name="event_time" required><br>
-                <label>Sport</label>
-                <input type="text" name="sport" placeholder="Football" required><br>
-                <label>Home team</label>
-                <input type="text" name="home_team" placeholder="Team name" required><br>
-                <label>Away team</label>
-                <input type="text" name="away_team" placeholder="Team name" required><br>
-                <label>Venue</label>
-                <input type="text" name="venue_name" placeholder="Stadium name"><br>
-                <label>City</label>
-                <input type="text" name="venue_city" placeholder="City"><br>
-                <label>Country</label>
-                <input type="text" name="venue_country" placeholder="Country"><br>
-                <label>Description</label>
-                <textarea name="description" rows="3" placeholder="Optional event notes"></textarea><br>
+                <label>Date<input type="date" name="event_date" required></label>
+                <label>Time<input type="time" name="event_time" required></label>
+                <label>Sport<input type="text" name="sport" placeholder="Football" required></label>
+                <label>Home team<input type="text" name="home_team" placeholder="Home team name" required></label>
+                <label>Away team<input type="text" name="away_team" placeholder="Away team name" required></label>
+                <label>Venue<input type="text" name="venue_name" placeholder="Stadium name"></label>
+                <label>City<input type="text" name="venue_city" placeholder="City"></label>
+                <label>Country<input type="text" name="venue_country" placeholder="Country"></label>
+                <label>Description<textarea name="description" rows="3"
+                        placeholder="Optional event notes"></textarea></label>
                 <button type="submit">Add event</button>
             </form>
         </section>
