@@ -30,8 +30,16 @@ CREATE TABLE IF NOT EXISTS events (
     CONSTRAINT events__venue_id_fk FOREIGN KEY (_venue_id) REFERENCES venues(id),
     CONSTRAINT events__home_team_id_fk FOREIGN KEY (_home_team_id) REFERENCES teams(id),
     CONSTRAINT events__away_team_id_fk FOREIGN KEY (_away_team_id) REFERENCES teams(id),
-    CONSTRAINT events_home_away_check CHECK (_home_team_id <> _away_team_id)
+    CONSTRAINT events_home_away_check CHECK (_home_team_id <> _away_team_id),
+    CONSTRAINT events_unique_match_slot UNIQUE (event_date, event_time, _home_team_id, _away_team_id)
 );
+
+CREATE INDEX IF NOT EXISTS idx_events_sport_id ON events (_sport_id);
+CREATE INDEX IF NOT EXISTS idx_events_venue_id ON events (_venue_id);
+CREATE INDEX IF NOT EXISTS idx_events_home_team_id ON events (_home_team_id);
+CREATE INDEX IF NOT EXISTS idx_events_away_team_id ON events (_away_team_id);
+CREATE INDEX IF NOT EXISTS idx_events_date ON events (event_date);
+CREATE INDEX IF NOT EXISTS idx_events_date_time ON events (event_date, event_time);
 
 INSERT INTO sports (name)
 VALUES ('Football'), ('Ice Hockey')
