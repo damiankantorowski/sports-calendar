@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Event Calendar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="nav">
+        <div class="brand">Sports Calendar</div>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Upcoming</a></li>
+            <li><a href="#">Teams</a></li>
+            <li><a href="#">Venues</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <section class="panel">
+            <h1>Events</h1>
+            <form method="get" class="filters">
+                <label>
+                    Sport
+                    <select name="sport">
+                        <option value="">All</option>
+                        {% for sport in sports %}
+                        <option value="{{ sport }}" {% if active_sport == sport %}selected{% endif %}>{{ sport }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label>
+                    Date
+                    <input type="date" name="date" value="{{ active_date }}">
+                </label>
+                <button type="submit">Filter</button>
+            </form>
+
+            {% if message %}
+            <p class="message">{{ message }}</p>
+            {% endif %}
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Sport</th>
+                        <th>Match</th>
+                        <th>Venue</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                    <tr>
+                        <td>{{ event.event_date }}</td>
+                        <td>{{ event.event_time }}</td>
+                        <td>{{ event.sport }}</td>
+                        <td>{{ event.home_team }} vs. {{ event.away_team }}</td>
+                        <td>
+                            {% if event.venue_name %}
+                                {{ event.venue_name }}{% if event.venue_city %}, {{ event.venue_city }}{% endif %}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>{{ event.description or '-' }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6">No events found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <section class="panel">
+            <h2>Add Event</h2>
+            <form method="post" action="{{ url_for('create_event_from_form') }}" class="event-form">
+                <label>Date</label>
+                <input type="date" name="event_date" required><br>
+                <label>Time</label>
+                <input type="time" name="event_time" required><br>
+                <label>Sport</label>
+                <input type="text" name="sport" placeholder="Football" required><br>
+                <label>Home team</label>
+                <input type="text" name="home_team" placeholder="Team name" required><br>
+                <label>Away team</label>
+                <input type="text" name="away_team" placeholder="Team name" required><br>
+                <label>Venue</label>
+                <input type="text" name="venue_name" placeholder="Stadium name"><br>
+                <label>City</label>
+                <input type="text" name="venue_city" placeholder="City"><br>
+                <label>Country</label>
+                <input type="text" name="venue_country" placeholder="Country"><br>
+                <label>Description</label>
+                <textarea name="description" rows="3" placeholder="Optional event notes"></textarea><br>
+                <button type="submit">Add event</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
