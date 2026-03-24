@@ -1,0 +1,6 @@
+I tried not to use too much AI to write the code for me.
+While making the project, I had autocompletion enabled to speed up the process, without relying on agents.
+Before accepting suggestions, I made sure to understand the code and only accepted suggestions that I would have written myself.
+Before writing the SQL queries, I first made the schema on paper, to not get influenced by the AI's suggestions. 
+Because my time was limited, tests were generated entirely by Claude Opus in agent mode, based on the implementation.
+As it is a small project, I didn't decide to use Test-Driven Development and focused on getting the functionality working first.
