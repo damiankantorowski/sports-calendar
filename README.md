@@ -120,4 +120,5 @@ flask --app app.py run
 - Event date and time are based on the local time, no timezone handling.
 - Sample events from the assignment example are seeded in [sql/init.sql](sql/init.sql).
 - Jinja templates are used for simplicity, no frontend framework as the focus is on backend and database.
+- There are no error handling on the frontend.
 
