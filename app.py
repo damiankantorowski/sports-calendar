@@ -18,6 +18,7 @@ def get_connection():
 
 def get_db():
     if "conn" not in g:
+        # Reuse the same connection
         g.conn = get_connection()
     return g.conn
 
@@ -42,6 +43,7 @@ def get_or_create_sport_id(cur, sport_name):
 
 
 def get_or_create_team_id(cur, team_name, country_code=None):
+    # COALESCE ensures we don't overwrite an existing country_code with NULL
     cur.execute(
         """
         INSERT INTO teams (name, country_code)
@@ -58,6 +60,8 @@ def get_or_create_team_id(cur, team_name, country_code=None):
 def get_or_create_venue_id(cur, venue_name=None, city=None, country=None):
     if not venue_name:
         return None
+    # A unique constraint on (name, city, country) to allow
+    # multiple venues with the same name in different locations
     cur.execute(
         """
         INSERT INTO venues (name, city, country) VALUES (%s, %s, %s)
@@ -95,6 +99,7 @@ def fetch_events(sport=None, event_date=None):
         JOIN teams at ON at.id = e._away_team_id
         LEFT JOIN venues v ON v.id = e._venue_id
     """
+    # Optionally filter by sport and/or date if provided
     if conditions:
         query += " WHERE " + " AND ".join(conditions)
     query += " ORDER BY e.event_date, e.event_time"
@@ -139,7 +144,10 @@ def get_sports():
 def create_event(payload):
     conn = get_db()
     with conn.cursor() as cur:
-        sport_id = get_or_create_sport_id(cur, payload["sport"])
+        sport_id = get_or_create_sport_id(
+            cur, 
+            payload["sport"]
+        )
         home_team_id = get_or_create_team_id(
             cur,
             payload["home_team"],
